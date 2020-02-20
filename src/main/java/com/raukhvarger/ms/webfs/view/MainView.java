@@ -22,8 +22,12 @@ public class MainView extends VerticalLayout {
 	@Autowired
 	private PersonService personService;
 
+
 	@PostConstruct
 	public void init() {
+		setHeightFull();
+
+		add(new UIMenu());
 		add(new Text("Welcome to MainView."));
 
 
