@@ -3,6 +3,10 @@ package com.raukhvarger.ms.webfs.view;
 import com.raukhvarger.ms.webfs.spring.CustomRequestCache;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -27,8 +31,9 @@ public class LoginView extends VerticalLayout {
 	public LoginView(AuthenticationManager authenticationManager,
 					 CustomRequestCache requestCache) {
 		login.setOpened(true);
+		login.setForgotPasswordButtonVisible(false);
+
 		login.setTitle("Welcome to WebFS!");
-		login.setDescription("Authorization");
 
 		add(login);
 

@@ -1,6 +1,7 @@
 package com.raukhvarger.ms.webfs.spring;
 
 import com.raukhvarger.ms.webfs.view.LoginView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +16,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 @Configuration
-class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
+
+    private final AppConfig appConfig;
+
+    public SecurityConfig(AppConfig appConfig) {
+        this.appConfig = appConfig;
+    }
 
     @Bean
     @Override
@@ -32,13 +39,16 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .requestCache().requestCache(requestCache())
-                .and().authorizeRequests()
-                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+        if (appConfig.getDisableAuthorization())
+            http.csrf().disable().authorizeRequests().antMatchers("/", "/**").permitAll();
+        else
+            http.csrf().disable()
+                    .requestCache().requestCache(requestCache())
+                    .and().authorizeRequests()
+                    .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+                    .anyRequest().authenticated()
+                    .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
+                    .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
     }
 
     @Bean
@@ -53,9 +63,6 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new InMemoryUserDetailsManager(user);
     }
 
-    /**
-     * Allows access to static resources, bypassing Spring security.
-     */
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
@@ -67,6 +74,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/offline-page.html",
                 "/icons/**",
                 "/images/**",
+                "/frontend/**",
                 "/static/frontend/**",
                 "/webjars/**",
                 "/h2-console/**",

@@ -1,4 +1,4 @@
-package com.raukhvarger.ms.webfs.view;
+package com.raukhvarger.ms.webfs.view.components;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.menubar.MenuBar;

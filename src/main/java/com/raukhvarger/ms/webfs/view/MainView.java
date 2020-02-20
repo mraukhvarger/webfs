@@ -2,10 +2,15 @@ package com.raukhvarger.ms.webfs.view;
 
 import com.raukhvarger.ms.webfs.entity.Person;
 import com.raukhvarger.ms.webfs.service.PersonService;
+import com.raukhvarger.ms.webfs.view.components.UIGridFiles;
+import com.raukhvarger.ms.webfs.view.components.UIMenu;
+import com.raukhvarger.ms.webfs.view.components.UIPath;
+import com.raukhvarger.ms.webfs.view.components.UITreeFiles;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.dnd.GridDropMode;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.data.provider.hierarchy.TreeData;
 import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
@@ -16,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 
 @Route
-@PreserveOnRefresh
+//@PreserveOnRefresh
 public class MainView extends VerticalLayout {
 
 	@Autowired
@@ -28,11 +33,17 @@ public class MainView extends VerticalLayout {
 		setHeightFull();
 
 		add(new UIMenu());
-		add(new Text("Welcome to MainView."));
+		add(new UIPath());
+
+		SplitLayout main = new SplitLayout(new UITreeFiles(), new UIGridFiles());
+		main.setSizeFull();
+		add(main);
 
 
+	}
+
+	public void test_grid() {
 		final Person[] draggedItem = {new Person()};
-
 		TreeGrid<Person> grid = new TreeGrid<>();
 		add(grid);
 
