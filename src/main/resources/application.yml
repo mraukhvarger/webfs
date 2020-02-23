@@ -3,3 +3,15 @@ server.port: 3001
 eureka:
  client:
    enabled: false
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: webfs
+      username: webfs
+      password: webfs
+
+webfs:
+  startDir: ${START_DIR:C:/}

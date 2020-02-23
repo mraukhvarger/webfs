@@ -11,4 +11,5 @@ public class AppConfig {
 
     private Boolean disableAuthorization = false;
 
+    private String startDir;
 }

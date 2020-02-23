@@ -1,5 +1,6 @@
-package com.raukhvarger.ms.webfs.spring;
+package com.raukhvarger.ms.webfs.front.spring;
 
+import com.raukhvarger.ms.webfs.spring.SecurityUtils;
 import com.raukhvarger.ms.webfs.view.LoginView;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;

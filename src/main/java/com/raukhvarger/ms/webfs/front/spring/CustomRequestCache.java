@@ -1,5 +1,6 @@
-package com.raukhvarger.ms.webfs.spring;
+package com.raukhvarger.ms.webfs.front.spring;
 
+import com.raukhvarger.ms.webfs.spring.SecurityUtils;
 import com.raukhvarger.ms.webfs.view.LoginView;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinServletResponse;
