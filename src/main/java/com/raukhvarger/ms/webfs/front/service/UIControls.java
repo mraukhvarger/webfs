@@ -6,4 +6,5 @@ public interface UIControls {
 
     void openFolder(Path path);
 
+    void openStartFolder();
 }

@@ -9,13 +9,16 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 @Scope("session")
 public class UIMenu extends HorizontalLayout {
 
     private final Logger logger = LoggerFactory.getLogger(UIMenu.class);
 
-    public UIMenu() {
+    @PostConstruct
+    private void init() {
         setWidthFull();
 
         MenuBar leftMenu = new MenuBar();

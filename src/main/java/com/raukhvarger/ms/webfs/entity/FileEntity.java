@@ -3,11 +3,6 @@ package com.raukhvarger.ms.webfs.entity;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -21,7 +16,7 @@ import java.nio.file.Path;
 //@Document(collection = "Files")
 public class FileEntity {
 
-    @MongoId(FieldType.OBJECT_ID)
+//    @MongoId(FieldType.OBJECT_ID)
     String id;
 
     @NonNull

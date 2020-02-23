@@ -1,6 +1,7 @@
 package com.raukhvarger.ms.webfs.front.service;
 
 import com.raukhvarger.ms.webfs.entity.FileEntity;
+import com.raukhvarger.ms.webfs.front.model.MainFormModel;
 import com.raukhvarger.ms.webfs.front.spring.CustomRequestCache;
 import com.raukhvarger.ms.webfs.service.FilesService;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Supplier;
 
 @Service
@@ -76,22 +79,31 @@ public class UIEventsImpl implements UIEvents {
     }
 
     @Override
+    public ComponentEventListener getOpenFolderParentEvent(Supplier<String> getValue) {
+        return e -> {
+            uiControls.openFolder(new File(getValue.get()).toPath().getParent());
+        };
+    }
+
+    @Override
     public ComponentEventListener getUploadFileEvent(MemoryBuffer buffer) {
         return e -> {
-            logger.info(buffer.getFileName());
+            Path currentFolder = dataProviders.getCurrentFolder();
+            logger.info(String.format("Upload '%s' to '%s'", buffer.getFileName(), currentFolder.toString()));
             try {
-                logger.info(new String(Streams.readAll(buffer.getInputStream())));
+                Files.write(currentFolder.resolve(buffer.getFileName()), Streams.readAll(buffer.getInputStream()));
             } catch (IOException ex) {
-                ex.printStackTrace();
+                logger.error("Upload file '%s' is failed", ex);
             }
+            dataProviders.updateFilesInFolderData();
         };
     }
 
     @Override
     public ComponentEventListener<ItemClickEvent<FileEntity>> getFolderClickEvent() {
         return e -> {
-            // todo -> UIEvents
             dataProviders.updateFilesInFolderData(filesService.getFilesByFolder(e.getItem().getPath()));
+            dataProviders.getMainFormBinder().readBean(MainFormModel.builder().pathFieldValue(e.getItem().getPath().toAbsolutePath().toString()).build());
         };
     }
 

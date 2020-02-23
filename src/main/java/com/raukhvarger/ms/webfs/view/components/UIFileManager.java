@@ -16,9 +16,9 @@ import javax.annotation.PostConstruct;
 
 @Component
 @Scope("session")
-public class UIMainArea extends SplitLayout {
+public class UIFileManager extends SplitLayout {
 
-    private final Logger logger = LoggerFactory.getLogger(UIMainArea.class);
+    private final Logger logger = LoggerFactory.getLogger(UIFileManager.class);
 
     @Autowired
     private UITreeFiles uiTreeFiles;
@@ -42,6 +42,7 @@ public class UIMainArea extends SplitLayout {
         HorizontalLayout hl = new HorizontalLayout();
         Upload upload = new Upload(buffer);
         upload.addSucceededListener(uiEvents.getUploadFileEvent(buffer));
+        upload.addFailedListener(e -> logger.error(e.toString()));
         hl.addAndExpand(upload);
 
         VerticalLayout right = new VerticalLayout();

@@ -1,8 +1,9 @@
 package com.raukhvarger.ms.webfs.view;
 
-import com.raukhvarger.ms.webfs.view.components.UIMainArea;
+import com.raukhvarger.ms.webfs.front.service.UIControls;
 import com.raukhvarger.ms.webfs.view.components.UIMenu;
 import com.raukhvarger.ms.webfs.view.components.UIPath;
+import com.raukhvarger.ms.webfs.view.components.UITabs;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
@@ -28,7 +29,10 @@ public class MainView extends VerticalLayout {
 	private UIMenu uiMenu;
 
 	@Autowired
-	private UIMainArea uiMainArea;
+	private UITabs uiTabs;
+
+	@Autowired
+	private UIControls uiControls;
 
 	@PostConstruct
 	public void init() {
@@ -36,7 +40,9 @@ public class MainView extends VerticalLayout {
 
 		add(uiMenu);
 		add(uiPath);
-		add(uiMainArea);
+		addAndExpand(uiTabs);
+
+		uiControls.openStartFolder();
 	}
 
 }
