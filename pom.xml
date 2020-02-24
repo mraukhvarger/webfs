@@ -160,7 +160,7 @@
 						<version>1.3.6</version>
 						<configuration>
 							<repository>m1r2user/webfs</repository>
-							<tag>0.1</tag>
+							<tag>0.0.2</tag>
 							<buildArgs>
 								<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 							</buildArgs>
