@@ -1,6 +1,8 @@
-package com.raukhvarger.ms.webfs.view.components;
+package com.raukhvarger.ms.webfs.front.view.component;
 
+import com.raukhvarger.ms.webfs.front.service.UIControls;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class UITabs extends VerticalLayout {
     private final Logger logger = LoggerFactory.getLogger(UITabs.class);
 
     @Autowired
+    private UIControls uiControls;
+
+    @Autowired
     private UIFileManager uiFileManager;
 
     @Autowired
@@ -29,9 +34,15 @@ public class UITabs extends VerticalLayout {
 
         PagedTabs tabs = new PagedTabs();
         tabs.setSizeFull();
+        tabs.getElement().setAttribute("style", getElement().getAttribute("style") + "; margin: 0;" );
 
-        tabs.add(uiFileManager, "File manager");
-        tabs.add(uiViewer, "Viewer");
+        Tab fmTab = tabs.add(uiFileManager, "File manager");
+        Tab vTab = tabs.add(uiViewer, "Viewer");
+
+        uiControls.setOpenViewerTabAction(() -> {
+            tabs.select(vTab);
+            return uiViewer.getContentLayout();
+        });
 
         addAndExpand(tabs);
 

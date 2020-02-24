@@ -1,7 +1,7 @@
 package com.raukhvarger.ms.webfs.front.service;
 
-import com.raukhvarger.ms.webfs.entity.FileEntity;
 import com.raukhvarger.ms.webfs.front.model.MainFormModel;
+import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.provider.DataProvider;
 
@@ -10,23 +10,23 @@ import java.util.List;
 
 public interface DataProviders {
 
-    List<FileEntity> getFilesInFolderData();
+    List<FileViewerItem> getFilesInFolderData();
 
-    List<FileEntity> getFoldersData();
+    List<FileViewerItem> getFoldersData();
 
     Path getCurrentFolder();
 
     Binder<MainFormModel> getMainFormBinder();
 
-    DataProvider<FileEntity, Void> getFilesInFolderProvider();
+    DataProvider<FileViewerItem, Void> getFilesInFolderProvider();
 
-    DataProvider<FileEntity, Void>getFoldersProvider();
+    DataProvider<FileViewerItem, Void>getFoldersProvider();
 
-    void updateFilesInFolderData(List<FileEntity> files);
+    void updateFilesInFolderData(List<FileViewerItem> files);
 
     void updateFilesInFolderData();
 
-    void updateFoldersData(List<FileEntity> files);
+    void updateFoldersData(List<FileViewerItem> files);
 
     void updateFoldersData();
 

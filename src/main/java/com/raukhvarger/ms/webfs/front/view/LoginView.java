@@ -1,4 +1,4 @@
-package com.raukhvarger.ms.webfs.view;
+package com.raukhvarger.ms.webfs.front.view;
 
 import com.raukhvarger.ms.webfs.front.service.UIEventsImpl;
 import com.vaadin.flow.component.login.LoginOverlay;

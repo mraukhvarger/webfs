@@ -1,4 +1,4 @@
-package com.raukhvarger.ms.webfs.view.components;
+package com.raukhvarger.ms.webfs.front.view.component;
 
 import com.raukhvarger.ms.webfs.front.service.UIEvents;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 @Scope("session")
-public class UIFileManager extends SplitLayout {
+public class UIFileManager extends VerticalLayout {
 
     private final Logger logger = LoggerFactory.getLogger(UIFileManager.class);
 
@@ -27,13 +27,29 @@ public class UIFileManager extends SplitLayout {
     private UIGridFiles uiGridFiles;
 
     @Autowired
+    private UIPath uiPath;
+
+    @Autowired
     private UIEvents uiEvents;
 
     @PostConstruct
     void init() {
-        addToPrimary(uiTreeFiles);
-        addToSecondary(rightPanel());
         setSizeFull();
+        setPadding(false);
+        add(uiPath);
+
+        SplitLayout sl = new SplitLayout();
+        sl.addToPrimary(leftPanel());
+        sl.addToSecondary(rightPanel());
+        sl.setSizeFull();
+        addAndExpand(sl);
+    }
+
+    private VerticalLayout leftPanel() {
+        VerticalLayout vl = new VerticalLayout();
+        vl.setPadding(false);
+        vl.addAndExpand(uiTreeFiles);
+        return vl;
     }
 
     private VerticalLayout rightPanel() {

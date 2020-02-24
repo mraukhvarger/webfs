@@ -1,8 +1,9 @@
 package com.raukhvarger.ms.webfs.front.service;
 
-import com.raukhvarger.ms.webfs.entity.FileEntity;
 import com.raukhvarger.ms.webfs.front.model.MainFormModel;
 import com.raukhvarger.ms.webfs.front.spring.CustomRequestCache;
+import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
+import com.raukhvarger.ms.webfs.front.view.modal.UIInputForm;
 import com.raukhvarger.ms.webfs.service.FilesService;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +34,6 @@ import java.util.function.Supplier;
 public class UIEventsImpl implements UIEvents {
 
     private final Logger logger = LoggerFactory.getLogger(UIEventsImpl.class);
-
 
     private final AuthenticationManager authenticationManager;
     private final CustomRequestCache requestCache;
@@ -100,10 +101,53 @@ public class UIEventsImpl implements UIEvents {
     }
 
     @Override
-    public ComponentEventListener<ItemClickEvent<FileEntity>> getFolderClickEvent() {
+    public ComponentEventListener<ItemClickEvent<FileViewerItem>> getFolderClickEvent() {
         return e -> {
             dataProviders.updateFilesInFolderData(filesService.getFilesByFolder(e.getItem().getPath()));
             dataProviders.getMainFormBinder().readBean(MainFormModel.builder().pathFieldValue(e.getItem().getPath().toAbsolutePath().toString()).build());
+        };
+    }
+
+    @Override
+    public ComponentEventListener getCreateFolderClickEvent() {
+        return e -> {
+            Path currentFolder = dataProviders.getCurrentFolder();
+            UIInputForm uiInputForm = new UIInputForm();
+            uiInputForm.setLabelCaption("New folder");
+            uiInputForm.addOKEventListener(ee -> {
+                currentFolder.resolve(uiInputForm.getInputValue()).toFile().mkdir();
+                dataProviders.updateFoldersData();
+                uiInputForm.close();
+            });
+            uiInputForm.open();
+        };
+    }
+
+    @Override
+    public ComponentEventListener getCreateFileClickEvent() {
+        return e -> {
+            Path currentFolder = dataProviders.getCurrentFolder();
+            UIInputForm uiInputForm = new UIInputForm();
+            uiInputForm.setLabelCaption("New file");
+            uiInputForm.addOKEventListener(ee -> {
+                File newFile = currentFolder.resolve(uiInputForm.getInputValue()).toFile();
+                try (FileWriter fw = new FileWriter(newFile)) {
+                    fw.write("");
+                } catch (IOException ex) {
+                    logger.error(String.format("Failed creation file '%s'", newFile.getAbsolutePath()));
+                }
+                currentFolder.resolve(uiInputForm.getInputValue()).toFile();
+                dataProviders.updateFilesInFolderData();
+                uiInputForm.close();
+            });
+            uiInputForm.open();
+        };
+    }
+
+    @Override
+    public ComponentEventListener getOpenFileWithViewerEvent(FileViewerItem fileItem) {
+        return e -> {
+            uiControls.openFile(fileItem);
         };
     }
 

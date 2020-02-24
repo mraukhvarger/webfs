@@ -1,7 +1,7 @@
 package com.raukhvarger.ms.webfs.spring;
 
 import com.raukhvarger.ms.webfs.front.spring.CustomRequestCache;
-import com.raukhvarger.ms.webfs.view.LoginView;
+import com.raukhvarger.ms.webfs.front.view.LoginView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

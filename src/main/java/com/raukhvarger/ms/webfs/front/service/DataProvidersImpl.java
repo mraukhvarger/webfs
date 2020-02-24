@@ -1,7 +1,7 @@
 package com.raukhvarger.ms.webfs.front.service;
 
-import com.raukhvarger.ms.webfs.entity.FileEntity;
 import com.raukhvarger.ms.webfs.front.model.MainFormModel;
+import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.raukhvarger.ms.webfs.service.FilesService;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -29,15 +29,15 @@ public class DataProvidersImpl implements DataProviders {
 
     private final Logger logger = LoggerFactory.getLogger(DataProvidersImpl.class);
 
-    private List<FileEntity> filesInFolderData;
+    private List<FileViewerItem> filesInFolderData;
 
-    private List<FileEntity> foldersData;
+    private List<FileViewerItem> foldersData;
 
     private Binder<MainFormModel> mainFormBinder;
 
-    private CallbackDataProvider<FileEntity, Void> filesInFolderProvider;
+    private CallbackDataProvider<FileViewerItem, Void> filesInFolderProvider;
 
-    private HierarchicalDataProvider<FileEntity, Void> foldersProvider;
+    private HierarchicalDataProvider<FileViewerItem, Void> foldersProvider;
 
     @Autowired
     private FilesService filesService;
@@ -55,9 +55,9 @@ public class DataProvidersImpl implements DataProviders {
                         q -> filesInFolderData.size());
 
         // Инициализация провайдера данных для дерева папок
-        foldersProvider = new AbstractBackEndHierarchicalDataProvider<FileEntity, Void>() {
+        foldersProvider = new AbstractBackEndHierarchicalDataProvider<FileViewerItem, Void>() {
             @Override
-            public int getChildCount(HierarchicalQuery<FileEntity, Void> query) {
+            public int getChildCount(HierarchicalQuery<FileViewerItem, Void> query) {
                 if (query.getParent() == null)
                     return foldersData.size();
                 else
@@ -65,13 +65,13 @@ public class DataProvidersImpl implements DataProviders {
             }
 
             @Override
-            public boolean hasChildren(FileEntity item) {
+            public boolean hasChildren(FileViewerItem item) {
                 return filesService.getFoldersByFolder(item.getPath()).size() > 0;
             }
 
             @Override
-            protected Stream<FileEntity> fetchChildrenFromBackEnd(
-                    HierarchicalQuery<FileEntity, Void> query) {
+            protected Stream<FileViewerItem> fetchChildrenFromBackEnd(
+                    HierarchicalQuery<FileViewerItem, Void> query) {
                 if (query.getParent() == null)
                     return foldersData.stream();
                 else
@@ -81,12 +81,12 @@ public class DataProvidersImpl implements DataProviders {
     }
 
     @Override
-    public List<FileEntity> getFilesInFolderData() {
+    public List<FileViewerItem> getFilesInFolderData() {
         return filesInFolderData;
     }
 
     @Override
-    public List<FileEntity> getFoldersData() {
+    public List<FileViewerItem> getFoldersData() {
         return foldersData;
     }
 
@@ -107,17 +107,17 @@ public class DataProvidersImpl implements DataProviders {
     }
 
     @Override
-    public DataProvider<FileEntity, Void> getFilesInFolderProvider() {
+    public DataProvider<FileViewerItem, Void> getFilesInFolderProvider() {
         return filesInFolderProvider;
     }
 
     @Override
-    public DataProvider<FileEntity, Void> getFoldersProvider() {
+    public DataProvider<FileViewerItem, Void> getFoldersProvider() {
         return foldersProvider;
     }
 
     @Override
-    public void updateFilesInFolderData(List<FileEntity> files) {
+    public void updateFilesInFolderData(List<FileViewerItem> files) {
         filesInFolderData.clear();
         filesInFolderData.addAll(files);
         filesInFolderProvider.refreshAll();
@@ -129,7 +129,7 @@ public class DataProvidersImpl implements DataProviders {
     }
 
     @Override
-    public void updateFoldersData(List<FileEntity> folders) {
+    public void updateFoldersData(List<FileViewerItem> folders) {
         foldersData.clear();
         foldersData.addAll(folders);
         foldersProvider.refreshAll();

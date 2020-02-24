@@ -1,5 +1,6 @@
 package com.raukhvarger.ms.webfs.front.service;
 
+import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -17,5 +18,11 @@ public interface UIEvents {
     ComponentEventListener getUploadFileEvent(MemoryBuffer buffer);
 
     ComponentEventListener getFolderClickEvent();
+
+    ComponentEventListener getCreateFolderClickEvent();
+
+    ComponentEventListener getCreateFileClickEvent();
+
+    ComponentEventListener getOpenFileWithViewerEvent(FileViewerItem fileItem);
 
 }

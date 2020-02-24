@@ -1,4 +1,4 @@
-package com.raukhvarger.ms.webfs.view.components;
+package com.raukhvarger.ms.webfs.front.view.component;
 
 import com.raukhvarger.ms.webfs.front.model.MainFormModel;
 import com.raukhvarger.ms.webfs.front.service.DataProviders;
@@ -26,6 +26,8 @@ public class UIPath extends HorizontalLayout {
     private TextField path = new TextField();
     private Button go = new Button(new Icon(VaadinIcon.ARROW_RIGHT));
     private Button up = new Button(new Icon(VaadinIcon.LEVEL_UP));
+    private Button newFolder = new Button(new Icon(VaadinIcon.FOLDER_ADD));
+    private Button newFile = new Button(new Icon(VaadinIcon.FILE_ADD));
 
     @Autowired
     private UIEvents uiEvents;
@@ -36,14 +38,17 @@ public class UIPath extends HorizontalLayout {
     @PostConstruct
     private void init() {
         setWidthFull();
-        add(path);
+        addAndExpand(path);
         add(go);
         add(up);
+        add(newFolder);
+        add(newFile);
 
-        path.setWidthFull();
         path.addKeyPressListener(Key.ENTER, uiEvents.getOpenFolderEvent(() -> path.getValue()));
         go.addClickListener(uiEvents.getOpenFolderEvent(() -> path.getValue()));
         up.addClickListener(uiEvents.getOpenFolderParentEvent(() -> path.getValue()));
+        newFolder.addClickListener(uiEvents.getCreateFolderClickEvent());
+        newFile.addClickListener(uiEvents.getCreateFileClickEvent());
 
         dataProviders.getMainFormBinder().bind(path, MainFormModel::getPathFieldValue, MainFormModel::setPathFieldValue);
     }

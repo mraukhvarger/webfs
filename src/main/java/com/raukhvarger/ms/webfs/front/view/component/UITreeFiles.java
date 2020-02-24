@@ -1,8 +1,8 @@
-package com.raukhvarger.ms.webfs.view.components;
+package com.raukhvarger.ms.webfs.front.view.component;
 
-import com.raukhvarger.ms.webfs.entity.FileEntity;
 import com.raukhvarger.ms.webfs.front.service.DataProviders;
 import com.raukhvarger.ms.webfs.front.service.UIEvents;
+import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 @Scope("session")
-public class UITreeFiles extends TreeGrid<FileEntity> {
+public class UITreeFiles extends TreeGrid<FileViewerItem> {
 
     @Autowired
     private DataProviders dataProviders;
@@ -24,7 +24,7 @@ public class UITreeFiles extends TreeGrid<FileEntity> {
     public void init() {
         setSizeFull();
 
-        addHierarchyColumn(FileEntity::getName);
+        addHierarchyColumn(FileViewerItem::getName);
         setDataProvider(dataProviders.getFoldersProvider());
 
         addItemClickListener(uiEvents.getFolderClickEvent());

@@ -1,6 +1,5 @@
-package com.raukhvarger.ms.webfs.view.components;
+package com.raukhvarger.ms.webfs.front.view.component;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -11,9 +10,18 @@ import javax.annotation.PostConstruct;
 @Scope("session")
 public class UIViewer extends VerticalLayout {
 
+    private VerticalLayout vl = new VerticalLayout();
+
     @PostConstruct
     private void init() {
-        addAndExpand(new Button("test"));
+        setPadding(false);
+        vl.setPadding(false);
+        setSizeFull();
+        addAndExpand(vl);
+    }
+
+    public VerticalLayout getContentLayout() {
+        return vl;
     }
 
 }
