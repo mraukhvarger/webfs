@@ -9,25 +9,26 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
-@Scope("session")
+@UIScope
 public class UIGridFiles extends Grid<FileViewerItem> {
 
     private final Logger logger = LoggerFactory.getLogger(UIGridFiles.class);
 
-    @Autowired
-    private DataProviders dataProviders;
+    private final DataProviders dataProviders;
+    private final UIEvents uiEvents;
 
-    @Autowired
-    private UIEvents uiEvents;
+    public UIGridFiles(DataProviders dataProviders, UIEvents uiEvents) {
+        this.dataProviders = dataProviders;
+        this.uiEvents = uiEvents;
+    }
 
     @PostConstruct
     public void init() {

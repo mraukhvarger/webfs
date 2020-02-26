@@ -9,16 +9,15 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
-@Scope("session")
+@UIScope
 public class UIPath extends HorizontalLayout {
 
     private final Logger logger = LoggerFactory.getLogger(UIPath.class);
@@ -29,11 +28,13 @@ public class UIPath extends HorizontalLayout {
     private Button newFolder = new Button(new Icon(VaadinIcon.FOLDER_ADD));
     private Button newFile = new Button(new Icon(VaadinIcon.FILE_ADD));
 
-    @Autowired
-    private UIEvents uiEvents;
+    private final UIEvents uiEvents;
+    private final DataProviders dataProviders;
 
-    @Autowired
-    private DataProviders dataProviders;
+    public UIPath(UIEvents uiEvents, DataProviders dataProviders) {
+        this.uiEvents = uiEvents;
+        this.dataProviders = dataProviders;
+    }
 
     @PostConstruct
     private void init() {

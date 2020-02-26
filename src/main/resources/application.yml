@@ -1,4 +1,7 @@
-server.port: 3001
+server:
+  port: 3001
+  error:
+    include-stacktrace: never
 
 eureka:
  client:
@@ -13,5 +16,9 @@ eureka:
 #      username: webfs
 #      password: webfs
 
+
 webfs:
   startDir: ${START_DIR:C:/}
+
+logging.level.net.sf.corn.cps: OFF
+logging.level.sun.net.www.protocol.jar: OFF

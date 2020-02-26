@@ -6,35 +6,36 @@ import com.raukhvarger.ms.webfs.front.view.component.UITabs;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 
 @Route
 @PreserveOnRefresh
-@Scope("session")
+@UIScope
 public class MainView extends VerticalLayout {
 
 	private final Logger logger = LoggerFactory.getLogger(MainView.class);
 
-	@Autowired
-	private UIMenu uiMenu;
+	private final UIMenu uiMenu;
+	private final UITabs uiTabs;
+	private final UIControls uiControls;
 
 	@Autowired
-	private UITabs uiTabs;
-
-	@Autowired
-	private UIControls uiControls;
+	public MainView(UIMenu uiMenu, UITabs uiTabs, UIControls uiControls) {
+		this.uiMenu = uiMenu;
+		this.uiTabs = uiTabs;
+		this.uiControls = uiControls;
+	}
 
 	@PostConstruct
 	public void init() {
 		setHeightFull();
 
 		add(uiMenu);
-//		add(uiPath);
 		addAndExpand(uiTabs);
 
 		uiControls.openStartFolder();

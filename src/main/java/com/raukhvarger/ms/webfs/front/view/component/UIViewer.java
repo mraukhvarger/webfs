@@ -1,13 +1,13 @@
 package com.raukhvarger.ms.webfs.front.view.component;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.springframework.context.annotation.Scope;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
-@Scope("session")
+@UIScope
 public class UIViewer extends VerticalLayout {
 
     private VerticalLayout vl = new VerticalLayout();

@@ -10,10 +10,9 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.hierarchy.AbstractBackEndHierarchicalDataProvider;
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider;
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-@Scope("session")
+@UIScope
 public class DataProvidersImpl implements DataProviders {
 
     private final Logger logger = LoggerFactory.getLogger(DataProvidersImpl.class);
@@ -39,8 +38,11 @@ public class DataProvidersImpl implements DataProviders {
 
     private HierarchicalDataProvider<FileViewerItem, Void> foldersProvider;
 
-    @Autowired
-    private FilesService filesService;
+    private final FilesService filesService;
+
+    public DataProvidersImpl(FilesService filesService) {
+        this.filesService = filesService;
+    }
 
     @PostConstruct
     private void init() {

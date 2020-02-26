@@ -73,7 +73,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/sw.js",
                 "/offline-page.html",
                 "/icons/**",
-                "/images/**",
+                "/META-INF/resources/frontend/images/**",
                 "/frontend/**",
                 "/static/frontend/**",
                 "/webjars/**",

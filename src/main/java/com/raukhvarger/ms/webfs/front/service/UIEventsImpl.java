@@ -11,10 +11,10 @@ import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.bouncycastle.util.io.Streams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +30,7 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 
 @Service
-@Scope("session")
+@UIScope
 public class UIEventsImpl implements UIEvents {
 
     private final Logger logger = LoggerFactory.getLogger(UIEventsImpl.class);

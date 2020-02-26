@@ -6,31 +6,30 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
-@Scope("session")
+@UIScope
 public class UIFileManager extends VerticalLayout {
 
     private final Logger logger = LoggerFactory.getLogger(UIFileManager.class);
 
-    @Autowired
-    private UITreeFiles uiTreeFiles;
+    private final UITreeFiles uiTreeFiles;
+    private final UIGridFiles uiGridFiles;
+    private final UIPath uiPath;
+    private final UIEvents uiEvents;
 
-    @Autowired
-    private UIGridFiles uiGridFiles;
-
-    @Autowired
-    private UIPath uiPath;
-
-    @Autowired
-    private UIEvents uiEvents;
+    public UIFileManager(UITreeFiles uiTreeFiles, UIGridFiles uiGridFiles, UIPath uiPath, UIEvents uiEvents) {
+        this.uiTreeFiles = uiTreeFiles;
+        this.uiGridFiles = uiGridFiles;
+        this.uiPath = uiPath;
+        this.uiEvents = uiEvents;
+    }
 
     @PostConstruct
     void init() {

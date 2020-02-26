@@ -11,8 +11,6 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
-import java.nio.file.Path;
-
 public class UIInputForm extends Dialog {
 
     private TextField input = new TextField();
@@ -28,17 +26,6 @@ public class UIInputForm extends Dialog {
         hl.add(ok);
 
         add(hl);
-
-//        Dialog self = this;
-//        ComponentEventListener createFolder = ee -> {
-//            currentFolder.resolve(input.getValue()).toFile().mkdir();
-//            self.close();
-//        };
-
-//        ok.addClickListener(createFolderEvent);
-//        input.addKeyPressListener(Key.ENTER, createFolderEvent);
-
-//        open();
     }
 
     @Override

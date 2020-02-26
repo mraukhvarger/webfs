@@ -4,6 +4,7 @@ import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.nio.file.Path;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public interface UIControls {
@@ -14,6 +15,6 @@ public interface UIControls {
 
     void openFile(FileViewerItem fileItem);
 
-    void setOpenViewerTabAction(Supplier<VerticalLayout> action);
+    void setOpenViewerTabAction(Consumer<Consumer<VerticalLayout>> action);
 
 }

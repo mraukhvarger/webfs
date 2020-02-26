@@ -4,35 +4,35 @@ import com.raukhvarger.ms.webfs.front.model.MainFormModel;
 import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.raukhvarger.ms.webfs.service.FilesService;
 import com.raukhvarger.ms.webfs.spring.AppConfig;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.nio.file.Path;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 @Service
-@Scope("session")
+@UIScope
 public class UIControlsImpl implements UIControls {
 
     private final Logger logger = LoggerFactory.getLogger(UIControlsImpl.class);
 
-    @Autowired
-    private DataProviders dataProviders;
+    private Consumer<Consumer<VerticalLayout>> openViewerTabAction;
 
-    @Autowired
-    private FilesService filesService;
+    private final DataProviders dataProviders;
+    private final FilesService filesService;
+    private final AppConfig appConfig;
 
-    @Autowired
-    private AppConfig appConfig;
-
-    private Supplier<VerticalLayout> openViewerTabAction;
+    public UIControlsImpl(DataProviders dataProviders, FilesService filesService, AppConfig appConfig, ApplicationContext appContext) {
+        this.dataProviders = dataProviders;
+        this.filesService = filesService;
+        this.appConfig = appConfig;
+        this.appContext = appContext;
+    }
 
     @Override
     public void openFolder(Path path) {
@@ -46,21 +46,24 @@ public class UIControlsImpl implements UIControls {
         openFolder(new File(appConfig.getStartDir()).toPath());
     }
 
+
+    private final ApplicationContext appContext;
+
     @Override
     public void openFile(FileViewerItem fileItem) {
         try {
-            Constructor<?> constructor = fileItem.getView().getConstructor(Path.class);
-            Object view = constructor.newInstance(fileItem.getPath());
-            VerticalLayout vl = openViewerTabAction.get();
-            vl.removeAll();
-            vl.add((Component) view);
+            openViewerTabAction.accept(vl -> {
+                vl.getChildren().forEach(c -> c.getElement().removeFromTree());
+                vl.removeAll();
+                vl.add(fileItem.getView().apply(fileItem.getPath()));
+            });
         } catch (Exception e) {
             logger.error("Failed file extensions??? 0_o", e);
         }
     }
 
     @Override
-    public void setOpenViewerTabAction(Supplier<VerticalLayout> action) {
+    public void setOpenViewerTabAction(Consumer<Consumer<VerticalLayout>> action) {
         openViewerTabAction = action;
     }
 
