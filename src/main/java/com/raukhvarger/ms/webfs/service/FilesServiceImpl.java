@@ -3,15 +3,11 @@ package com.raukhvarger.ms.webfs.service;
 import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewer;
 import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.spring.annotation.UIScope;
-import net.sf.corn.cps.CPScanner;
-import net.sf.corn.cps.ClassFilter;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ScannedGenericBeanDefinition;
@@ -21,12 +17,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +58,6 @@ public class FilesServiceImpl implements FilesService {
                     .icon(extFile.getIcon())
                     .isFolder(f.isDirectory())
                     .view(extFile.getView())
-                    .viewBean(extFile.getViewBean())
                     .path(filePath)
                     .build();
         }).collect(Collectors.toList());
@@ -113,7 +106,6 @@ public class FilesServiceImpl implements FilesService {
                                             }
                                             return view;
                                         })
-                                        .viewBean(c)
                                         .extension(c.getAnnotation(FileViewer.class).extension())
                                         .icon(c.getAnnotation(FileViewer.class).icon())
                                         .build()
