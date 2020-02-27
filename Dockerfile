@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM openjdk:8-alpine
 VOLUME /tmp
 VOLUME /shared_folder
 ARG JAR_FILE

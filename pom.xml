@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.raukhvarger.ms</groupId>
 	<artifactId>webfs</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>webfs</name>
-	<description>Сервис, для доступа к файловой системе через web-интерфейс</description>
+	<description>Сервис для доступа к файловой системе через web-интерфейс</description>
 
 	<properties>
 		<java.version>1.8</java.version>
