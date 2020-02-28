@@ -2,8 +2,6 @@ package com.raukhvarger.ms.webfs.spring;
 
 import com.vaadin.flow.server.ServletHelper.RequestType;
 import com.vaadin.flow.shared.ApplicationConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +13,10 @@ import java.util.stream.Stream;
 @Component
 public final class SecurityUtils {
 
-	private static AppConfig appConfig;
+	private static AppProperties appProperties;
 
-	private SecurityUtils(AppConfig appConfig) {
-		SecurityUtils.appConfig = appConfig;
+	private SecurityUtils(AppProperties appProperties) {
+		SecurityUtils.appProperties = appProperties;
 	}
 
 	public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
@@ -28,7 +26,7 @@ public final class SecurityUtils {
 	}
 
 	public static boolean isUserLoggedIn() {
-		if (appConfig.getDisableAuthorization())
+		if (appProperties.getDisableAuthorization())
 			return true;
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

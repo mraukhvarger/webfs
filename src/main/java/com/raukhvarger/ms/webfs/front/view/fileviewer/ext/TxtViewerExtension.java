@@ -1,4 +1,4 @@
-package com.raukhvarger.ms.webfs.front.view.fileviewer;
+package com.raukhvarger.ms.webfs.front.view.fileviewer.ext;
 
 import com.raukhvarger.ms.webfs.utils.CorrectTextArea;
 import com.vaadin.flow.component.button.Button;
@@ -8,16 +8,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@FileViewer(extension = "txt", icon = VaadinIcon.FILE_TEXT)
-public class FileTxtViewer extends VerticalLayout {
+@Component("txtViewer")
+@Scope("prototype")
+public class TxtViewerExtension extends VerticalLayout implements ViewerExtension {
 
-    private final Logger logger = LoggerFactory.getLogger(FileTxtViewer.class);
+    private final Logger logger = LoggerFactory.getLogger(TxtViewerExtension.class);
 
     private CorrectTextArea textArea = new CorrectTextArea();
     private HorizontalLayout hl = new HorizontalLayout();
@@ -26,9 +29,24 @@ public class FileTxtViewer extends VerticalLayout {
 
     private Path path;
 
-    public FileTxtViewer(Path path) {
-        this.path = path;
+    public TxtViewerExtension() {
         init();
+    }
+
+    @Override
+    public String getExtension() {
+        return "txt";
+    }
+
+    @Override
+    public VaadinIcon getIcon() {
+        return VaadinIcon.FILE_TEXT;
+    }
+
+    @Override
+    public com.vaadin.flow.component.Component loadFileInViewer(Path path) {
+        reload(path);
+        return this;
     }
 
     private void save() {
@@ -40,7 +58,8 @@ public class FileTxtViewer extends VerticalLayout {
         }
     }
 
-    private void reload() {
+    private void reload(Path path) {
+        this.path = path;
         try {
             logger.info("Load file: " + path.toAbsolutePath().toString());
             String data = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
@@ -52,12 +71,11 @@ public class FileTxtViewer extends VerticalLayout {
     }
 
     private void init() {
-        reload();
         setSizeFull();
         setPadding(false);
 
         save.addClickListener(e -> save());
-        reload.addClickListener(e -> reload());
+        reload.addClickListener(e -> reload(path));
 
         hl.add(save);
         hl.add(reload);

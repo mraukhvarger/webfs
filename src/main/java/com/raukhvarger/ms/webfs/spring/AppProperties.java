@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "webfs")
-public class AppConfig {
+public class AppProperties {
 
     private Boolean disableAuthorization = false;
 

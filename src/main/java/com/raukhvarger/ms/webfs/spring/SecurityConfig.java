@@ -20,10 +20,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
 
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
 
-    public SecurityConfig(AppConfig appConfig) {
-        this.appConfig = appConfig;
+    public SecurityConfig(AppProperties appProperties) {
+        this.appProperties = appProperties;
     }
 
     @Bean
@@ -39,7 +39,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        if (appConfig.getDisableAuthorization())
+        if (appProperties.getDisableAuthorization())
             http.csrf().disable().authorizeRequests().antMatchers("/", "/**").permitAll();
         else
             http.csrf().disable()

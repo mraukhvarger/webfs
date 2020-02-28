@@ -11,6 +11,4 @@ public interface FilesService {
 
     List<FileViewerItem> getFoldersByFolder(Path path);
 
-    FileViewerItem getFileViewer(Path path);
-
 }

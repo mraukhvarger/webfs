@@ -3,12 +3,11 @@ package com.raukhvarger.ms.webfs.front.service;
 import com.raukhvarger.ms.webfs.front.model.MainFormModel;
 import com.raukhvarger.ms.webfs.front.view.fileviewer.FileViewerItem;
 import com.raukhvarger.ms.webfs.service.FilesService;
-import com.raukhvarger.ms.webfs.spring.AppConfig;
+import com.raukhvarger.ms.webfs.spring.AppProperties;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.UIScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,13 +24,12 @@ public class UIControlsImpl implements UIControls {
 
     private final DataProviders dataProviders;
     private final FilesService filesService;
-    private final AppConfig appConfig;
+    private final AppProperties appProperties;
 
-    public UIControlsImpl(DataProviders dataProviders, FilesService filesService, AppConfig appConfig, ApplicationContext appContext) {
+    public UIControlsImpl(DataProviders dataProviders, FilesService filesService, AppProperties appProperties) {
         this.dataProviders = dataProviders;
         this.filesService = filesService;
-        this.appConfig = appConfig;
-        this.appContext = appContext;
+        this.appProperties = appProperties;
     }
 
     @Override
@@ -43,11 +41,9 @@ public class UIControlsImpl implements UIControls {
 
     @Override
     public void openStartFolder() {
-        openFolder(new File(appConfig.getStartDir()).toPath());
+        openFolder(new File(appProperties.getStartDir()).toPath());
     }
 
-
-    private final ApplicationContext appContext;
 
     @Override
     public void openFile(FileViewerItem fileItem) {
