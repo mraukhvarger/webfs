@@ -26,8 +26,6 @@ public class FilesServiceImpl implements FilesService {
 
     private final Logger logger = LoggerFactory.getLogger(FilesServiceImpl.class);
 
-    private List<FileViewerItem> fileViewerItems;
-
     private final FileViewerExtensions fileExtensions;
 
     public FilesServiceImpl(FileViewerExtensions fileExtensions) {
